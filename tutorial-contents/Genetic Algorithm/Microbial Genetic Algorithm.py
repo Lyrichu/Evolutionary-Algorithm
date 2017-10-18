@@ -1,6 +1,6 @@
 """
 Visualize Microbial Genetic Algorithm to find the maximum point in a graph.
-
+改进的遗传算法，每次会保留较优解，而只对不太好的解进行交叉和变异等操作
 Visit my tutorial website for more: https://morvanzhou.github.io/tutorials/
 """
 import numpy as np

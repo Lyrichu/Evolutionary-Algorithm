@@ -1,4 +1,6 @@
+# -*- coding:utf-8 -*-
 """
+进化策略
 The Evolution Strategy can be summarized as the following term:
 {mu/rho +, lambda}-ES
 
@@ -23,10 +25,11 @@ def F(x): return np.sin(10*x)*x + np.cos(2*x)*x     # to find the maximum of thi
 # find non-zero fitness for selection
 def get_fitness(pred): return pred.flatten()
 
-
+#----------2017.10.18-------------------------
 def make_kid(pop, n_kid):
     # generate empty kid holder
     kids = {'DNA': np.empty((n_kid, DNA_SIZE))}
+	# 变异强度
     kids['mut_strength'] = np.empty_like(kids['DNA'])
     for kv, ks in zip(kids['DNA'], kids['mut_strength']):
         # crossover (roughly half p1 and half p2)

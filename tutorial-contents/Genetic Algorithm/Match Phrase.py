@@ -1,6 +1,7 @@
+# -*- coding:utf-8 -*-
 """
 Visualize Genetic Algorithm to match the target phrase.
-
+通过遗传算法去生成匹配的句子
 Visit my tutorial website for more: https://morvanzhou.github.io/tutorials/
 """
 import numpy as np
@@ -10,9 +11,11 @@ POP_SIZE = 300                      # population size
 CROSS_RATE = 0.4                    # mating probability (DNA crossover)
 MUTATION_RATE = 0.01                # mutation probability
 N_GENERATIONS = 1000
-
+# DNA 长度
 DNA_SIZE = len(TARGET_PHRASE)
+# numpy 字符串转数字(ascii码)
 TARGET_ASCII = np.fromstring(TARGET_PHRASE, dtype=np.uint8)  # convert string to number
+# ascii 码取值
 ASCII_BOUND = [32, 126]
 
 
@@ -26,15 +29,18 @@ class GA(object):
         self.pop_size = pop_size
 
         self.pop = np.random.randint(*DNA_bound, size=(pop_size, DNA_size)).astype(np.int8)  # int8 for convert to ASCII
-
+	
+	#数字转字符串
     def translateDNA(self, DNA):                 # convert to readable string
         return DNA.tostring().decode('ascii')
 
     def get_fitness(self):                      # count how many character matches
+		# 按行加(axis=0按列匹配，axis=1按行匹配)
         match_count = (self.pop == TARGET_ASCII).sum(axis=1)
         return match_count
 
     def select(self):
+		# 加上一个很小的数以防止全0
         fitness = self.get_fitness() + 1e-4     # add a small amount to avoid all zero fitness
         idx = np.random.choice(np.arange(self.pop_size), size=self.pop_size, replace=True, p=fitness/fitness.sum())
         return self.pop[idx]
@@ -51,7 +57,8 @@ class GA(object):
             if np.random.rand() < self.mutate_rate:
                 child[point] = np.random.randint(*self.DNA_bound)  # choose a random ASCII index
         return child
-
+	
+	#一次进化
     def evolve(self):
         pop = self.select()
         pop_copy = pop.copy()
